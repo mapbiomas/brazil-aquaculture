@@ -77,6 +77,7 @@ var createIndexs = function(image) {
 
 
 /// Main CODE
+var userEEProject='USER_PROJECT_ID'
 var ROI = ee.Geometry.Polygon(
   [
       [
@@ -102,7 +103,7 @@ Map.addLayer(mosaicNew,{},'Mosaic '+year, false)
 Export.image.toAsset({
   image:mosaicNew.toByte().set({'year':year,'mosaic':1}),
   description: 'Mosaic_'+year,
-  assetId:'projects/ee-project/assets/USER_PATH/mosaic_'+year,
+  assetId:'projects/'+userEEProject+'/assets/USER_PATH/mosaic_'+year,
   region:ROI,
   scale:30,
   maxPixels:1e13
