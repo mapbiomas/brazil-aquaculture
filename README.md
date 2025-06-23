@@ -1,12 +1,14 @@
-<div class="fluid-row" id="header">
-    <div id="column">
-        <div class = "blocks">
-            <img src='./misc/solved-logo.jpeg' height='auto' width='200' align='right'>
-        </div>
-    </div>
-    <h1 class="title toc-ignore">Aquaculture</h1>
-    <h4 class="author">Developed by: <em><a href="https://solved.eco.br">Solved - Soluções em Geoinformação</a></em></h4>
-</div>
+
+
+
+<p align="right">
+  <img src="./misc/solved-logo.jpeg" width="200">
+</p>
+
+# Aquaculture
+
+#### Developed by: _[Solved - Soluções em Geoinformação](https://solved.eco.br)_
+
 
 # About
 This repository provides the steps to detect aquaculture areas using Landsat Top of Atmosphere (TOA) mosaics.
@@ -61,7 +63,7 @@ Output         | 2 (aquaculture and Not-aquaculture)|
 
 Main Script: [3-Jupyter Notebook](./3-mb10_aquaculture.ipynb)
 
-# . Apply filters
+# Filter Chain
 ## 4. Gap-fill & Temporal filter
 Gap-fill: Replace no-data values using the nearest available valid class.
 Temporal Filter: Apply a 3-year moving window to correct temporal inconsistencies.
