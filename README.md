@@ -5,7 +5,7 @@
         </div>
     </div>
     <h1 class="title toc-ignore">Aquaculture</h1>
-    <h4 class="author"><em>Solved - Solutions in Geoinformation</em></h4>
+    <h4 class="author"><a href="https://solved.eco.br">Solved - Solutions in Geoinformation</a></h4>
 </div>
 
 # About
