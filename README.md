@@ -1,6 +1,3 @@
-
-
-
 <p align="right">
   <img src="./misc/solved-logo.jpeg" width="200">
 </p>
@@ -9,11 +6,10 @@
 
 #### Developed by: _[Solved - Soluções em Geoinformação](https://solved.eco.br)_
 
-
 # About
 This repository provides the steps to detect aquaculture areas using Landsat Top of Atmosphere (TOA) mosaics.
 
-The Aquaculture mapping is based on DeepLearning (DL) classifier U-Net.
+The Aquaculture mapping is based on segmentation by [U-Net](https://arxiv.org/abs/1505.04597) neural network.
 
 For more information about the methodology, please see the [Coastal Zone Algorithm Theoretical Basis Document.](https://brasil.mapbiomas.org/wp-content/uploads/sites/4/2024/08/Coastal-Zone-Appendix-ATBD-Collection-9.docx.pdf)
 
