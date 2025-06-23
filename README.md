@@ -18,6 +18,7 @@ For more information about the methodology, please see the [Coastal Zone Algorit
 # How to use
 ## 0. Prepare environment.
 One must have a Google Earth Engine Account: [Get Started](https://earthengine.google.com)
+
 Some sort of GPU capability is also required for the training process.
 
 
@@ -31,6 +32,7 @@ Example: [1-mosaic-generation.js](./1-mosaic-generation.js)
 
 ## 2. Sampling Script
 Vizualise the training and validation regions, along with the supervised layer available publicly
+
 Example: [2-train-test-dataset.js](./2-train-test-dataset.js)
 
 ## 3. Execute the Neural Network.
@@ -63,6 +65,7 @@ Main Script: [3-Jupyter Notebook](./3-mb10_aquaculture.ipynb)
 ## 4. Gap-fill & Temporal filter
 Gap-fill: Replace no-data values using the nearest available valid class.
 Temporal Filter: Apply a 3-year moving window to correct temporal inconsistencies.
+
 Example: [3-train-test-dataset.js](./3-train-test-dataset.js)
 
 |RULE| INPUT (YEAR) | OUTPUT|
@@ -73,6 +76,7 @@ Example: [3-train-test-dataset.js](./3-train-test-dataset.js)
 
 ## 5. Spatial filter
 Spatial Filter: Use GEE's connectedPixelCount to remove isolated pixels, ensuring a minimum mapping unit of ~1 ha.
+
 Example: [5-spatial-filter.js](./5-spatial-filter.js)
 
 ## 6. Frequency filter
