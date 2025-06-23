@@ -9,13 +9,13 @@
 # About
 This repository provides the steps to detect aquaculture areas using Landsat Top of Atmosphere (TOA) mosaics.
 
-The Aquaculture mapping is based on segmentation by [U-Net](https://arxiv.org/abs/1505.04597) neural network.
+The detection process focuses on identifying aquaculture areas using Landsat TOA mosaics. The process involves generating annual cloud-free mosaics using Google Earth Engine (GEE) and applying a [U-Net](https://arxiv.org/abs/1505.04597) deep learning model for segmentation.
 
-For more information about the methodology, please see the [Coastal Zone Algorithm Theoretical Basis Document.](https://brasil.mapbiomas.org/wp-content/uploads/sites/4/2024/08/Coastal-Zone-Appendix-ATBD-Collection-9.docx.pdf)
+For more information about the methodology, please consult the [Coastal Zone Algorithm Theoretical Basis Document.](https://brasil.mapbiomas.org/wp-content/uploads/sites/4/2024/08/Coastal-Zone-Appendix-ATBD-Collection-9.docx.pdf)
 
 # How to use
 ## 0. Prepare environment.
-One must have a Google Earth Engine Account: [Get Started](https://earthengine.google.com)
+One must have a Google Earth Engine Account ([Get Started](https://earthengine.google.com)), be able to create a GEE repository in the code editor and upload the modules in it.
 
 Some sort of GPU capability is also required for the training process.
 
