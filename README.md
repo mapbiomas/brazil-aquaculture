@@ -1,8 +1,8 @@
 <p align="right">
-  <img src="./misc/solved-logo.jpeg" width="200">
+  <img src="./misc/Solved_ vetor 1.png" width="200">
 </p>
 
-# Aquaculture
+# Aquaculture Detection
 
 #### Developed by: _[Solved - Soluções em Geoinformação](https://solved.eco.br)_
 
