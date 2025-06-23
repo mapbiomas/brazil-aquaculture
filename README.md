@@ -1,13 +1,11 @@
 <div class="fluid-row" id="header">
-    <h1 class="title toc-ignore">Aquaculture</h1>
-    <h4 class="author">Team: <a href="https://solved.eco.br">Solved - Soluções em Geoinformação</a></h4>
     <div id="column">
         <div class = "blocks">
             <img src='./misc/solved-logo.jpeg' height='auto' width='200' align='right'>
         </div>
     </div>
-    
-
+    <h1 class="title toc-ignore">Aquaculture</h1>
+    <h4 class="author">Developed by: <em><a href="https://solved.eco.br">Solved - Soluções em Geoinformação</a></em></h4>
 </div>
 
 # About
