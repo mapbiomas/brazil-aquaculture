@@ -11,7 +11,7 @@ This repository provides the steps to detect aquaculture areas using Landsat Top
 
 The detection process focuses on identifying aquaculture areas using Landsat TOA mosaics. The process involves generating annual cloud-free mosaics using Google Earth Engine (GEE) and applying a [U-Net](https://arxiv.org/abs/1505.04597) deep learning model for segmentation.
 
-For more information about the methodology, please consult the [Coastal Zone Algorithm Theoretical Basis Document.](https://brasil.mapbiomas.org/wp-content/uploads/sites/4/2024/08/Coastal-Zone-Appendix-ATBD-Collection-9.docx.pdf)
+For more information about the methodology, please consult the [Coastal Zone Algorithm Theoretical Basis Document.](https://doi.org/10.58053/MapBiomas/D0UVI6)
 
 # How to use
 ## 0. Prepare environment.
