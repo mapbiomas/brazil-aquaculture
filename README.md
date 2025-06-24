@@ -26,12 +26,12 @@ Landsat TOA Mosaics:
         Generate annual cloud-free mosaics from January 1st to December 31st from 1985-2024.
         Apply a median filter to remove clouds and shadows.
 
-Example: [1-mosaic-generation.js](./1-mosaic-generation.js)
+* Script: [1-mosaic-generation.js](./1-mosaic-generation.js)
 
 ## 2. Sampling Script
 Vizualise the training and validation regions, along with the supervised layer available publicly
 
-Example: [2-train-test-dataset.js](./2-train-test-dataset.js)
+* Script:  [2-train-test-dataset.js](./2-train-test-dataset.js)
 
 ## 3. Execute the Neural Network.
 ### 3.1. Training
@@ -57,14 +57,14 @@ Output         | 2 (aquaculture and Not-aquaculture)|
 
 ##### Table 2 - CNN attributes and segmentation parameters. In total, six (6) distinct attributes were used.
 
-Main Script: [3-Jupyter Notebook](./3-mb10_aquaculture.ipynb)
+* Main Script: [3-Jupyter Notebook](./3-mb10_aquaculture.ipynb)
 
 # Filter Chain
 ## 4. Gap-fill & Temporal filter
 Gap-fill: Replace no-data values using the nearest available valid class.
 Temporal Filter: Apply a 3-year moving window to correct temporal inconsistencies.
 
-Example: [3-train-test-dataset.js](./3-train-test-dataset.js)
+* Script:  [4-gap-fill-temporal-filter.js](./4-gap-fill-temporal-filter.js)
 
 |RULE| INPUT (YEAR) | OUTPUT|
 |:--:|:------------:|:-----:|
@@ -75,12 +75,12 @@ Example: [3-train-test-dataset.js](./3-train-test-dataset.js)
 ## 5. Spatial filter
 Spatial Filter: Use GEE's connectedPixelCount to remove isolated pixels, ensuring a minimum mapping unit of ~1 ha.
 
-Example: [5-spatial-filter.js](./5-spatial-filter.js)
+* Script:  [5-spatial-filter.js](./5-spatial-filter.js)
 
 ## 6. Frequency filter
 Frequency Filter: Remove classes with less than 10% temporal persistence.
 
-Example: [6-frequency-filter.js](./6-frequency-filter.js)
+* Script:  [6-frequency-filter.js](./6-frequency-filter.js)
 
 # References
 ### REFERENCE DATA
