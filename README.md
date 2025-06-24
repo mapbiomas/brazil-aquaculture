@@ -57,7 +57,7 @@ Output         | 2 (aquaculture and Not-aquaculture)|
 
 ##### Table 2 - CNN attributes and segmentation parameters. In total, six (6) distinct attributes were used.
 
-* Main Script: [3-Jupyter Notebook](./3-mb10_aquaculture.ipynb)
+* Script: [3-Jupyter Notebook](./3-mb10_aquaculture.ipynb)
 
 # Filter Chain
 ## 4. Gap-fill & Temporal filter
