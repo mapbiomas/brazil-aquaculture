@@ -11,7 +11,7 @@ This repository provides the steps to detect aquaculture areas using Landsat Top
 
 The detection process focuses on identifying aquaculture areas using Landsat TOA mosaics. The process involves generating annual cloud-free mosaics using Google Earth Engine (GEE) and applying a [U-Net](https://arxiv.org/abs/1505.04597) deep learning model for segmentation.
 
-For more information about the methodology, please consult the [Coastal Zone Algorithm Theoretical Basis Document.](https://brasil.mapbiomas.org/wp-content/uploads/sites/4/2024/08/Coastal-Zone-Appendix-ATBD-Collection-9.docx.pdf)
+For more information about the methodology, please consult the [Coastal Zone Algorithm Theoretical Basis Document.](https://doi.org/10.58053/MapBiomas/D0UVI6)
 
 # How to use
 ## 0. Prepare environment.
@@ -26,12 +26,12 @@ Landsat TOA Mosaics:
         Generate annual cloud-free mosaics from January 1st to December 31st from 1985-2024.
         Apply a median filter to remove clouds and shadows.
 
-Example: [1-mosaic-generation.js](./1-mosaic-generation.js)
+* Script: [1-mosaic-generation.js](./1-mosaic-generation.js)
 
 ## 2. Sampling Script
 Vizualise the training and validation regions, along with the supervised layer available publicly
 
-Example: [2-train-test-dataset.js](./2-train-test-dataset.js)
+* Script:  [2-train-test-dataset.js](./2-train-test-dataset.js)
 
 ## 3. Execute the Neural Network.
 ### 3.1. Training
@@ -57,14 +57,14 @@ Output         | 2 (aquaculture and Not-aquaculture)|
 
 ##### Table 2 - CNN attributes and segmentation parameters. In total, six (6) distinct attributes were used.
 
-Main Script: [3-Jupyter Notebook](./3-mb10_aquaculture.ipynb)
+* Script: [3-Jupyter Notebook](./3-mb10_aquaculture.ipynb)
 
 # Filter Chain
 ## 4. Gap-fill & Temporal filter
 Gap-fill: Replace no-data values using the nearest available valid class.
 Temporal Filter: Apply a 3-year moving window to correct temporal inconsistencies.
 
-Example: [3-train-test-dataset.js](./3-train-test-dataset.js)
+* Script:  [4-gap-fill-temporal-filter.js](./4-gap-fill-temporal-filter.js)
 
 |RULE| INPUT (YEAR) | OUTPUT|
 |:--:|:------------:|:-----:|
@@ -75,12 +75,12 @@ Example: [3-train-test-dataset.js](./3-train-test-dataset.js)
 ## 5. Spatial filter
 Spatial Filter: Use GEE's connectedPixelCount to remove isolated pixels, ensuring a minimum mapping unit of ~1 ha.
 
-Example: [5-spatial-filter.js](./5-spatial-filter.js)
+* Script:  [5-spatial-filter.js](./5-spatial-filter.js)
 
 ## 6. Frequency filter
 Frequency Filter: Remove classes with less than 10% temporal persistence.
 
-Example: [6-frequency-filter.js](./6-frequency-filter.js)
+* Script:  [6-frequency-filter.js](./6-frequency-filter.js)
 
 # References
 ### REFERENCE DATA

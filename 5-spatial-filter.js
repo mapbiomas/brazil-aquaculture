@@ -45,19 +45,19 @@ var PostClassification = function (image) {
   this.init(image);
 };
 
-  /// Main CODE
-  var userEEProject='USER_PROJECT_ID'
+/// Main CODE
+var userEEProject='USER_PROJECT_ID'
 
-  var ROI = ee.Geometry.Polygon(
-    [
-        [
-            [-75.46319738935682, 6.627809464162168],
-            [-75.46319738935682, -34.62753178950752],
-            [-32.92413488935683, -34.62753178950752],
-            [-32.92413488935683, 6.627809464162168]
-        ]
-    ], null, false
-  );
+var ROI = ee.Geometry.Polygon(
+  [
+      [
+          [-75.46319738935682, 6.627809464162168],
+          [-75.46319738935682, -34.62753178950752],
+          [-32.92413488935683, -34.62753178950752],
+          [-32.92413488935683, 6.627809464162168]
+      ]
+  ], null, false
+);
 
 
 

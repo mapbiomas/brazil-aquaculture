@@ -1,32 +1,25 @@
-var userEEProject ='USER_PROJECT_ID';
-var versionSF     = 6;
-var fs = ee.ImageCollection('projects/'+userEEProject+'/assets/LANDSAT/AQUACULTURE/unet_fs').filter(ee.Filter.and(ee.Filter.eq('version',versionSF)))
 /** 
 * @Author Luiz Cortinhas
 * @Version 1
 * @Note this function aims load the temporal filtered images into a single image collection
 * @Return ee.ImageCollection
 **/
-var firstYear = 1985;
-var lastYear  = 2024;
-
-
 // Set nextyear as apropertie in each img in a imagecollection
-var getImageCollection = function(){
-    var images = ee.List([]);
-    for(var year = firstYear; year <= firstYear; year++){
-      var img = fs.filter(ee.Filter.eq('year',year)).first()
-      var img = img.updateMask(clip_img_mask.eq(1)).unmask();
-  
-      if(year == firstYear){
-        img = img.set({'nextYear':(year-1)});
-      }else{
-        img = img.set({'nextYear':(year+1)});
-      }
-      images = images.add(img);
+var getImageCollection = function(firstYear, lastYear, userEEProject, versionSF){
+  var fs     = ee.ImageCollection('projects/'+userEEProject+'/assets/LANDSAT/AQUACULTURE/unet_fs').filter(ee.Filter.and(ee.Filter.eq('version',versionSF)));
+  var images = ee.List([]);
+  for(var year = firstYear; year <= lastYear; year++){
+    var img = fs.filter(ee.Filter.eq('year',year)).first()
+
+    if(year == firstYear){
+      img = img.set({'nextYear':(year-1)});
+    }else{
+      img = img.set({'nextYear':(year+1)});
     }
-    return ee.ImageCollection(images);
-  };
+    images = images.add(img);
+  }
+  return ee.ImageCollection(images);
+};
 
 /**
 * @Author Luiz Cortinhas
@@ -48,41 +41,45 @@ var getConsecutively = function(img){
 * @Note this function aims apply the desired frequency filter to binarized image collection,
 * @Return ee.ImageCollection
 **/
-var filterPixelFrequency = function(imc,cutPercentage,classID){
-    var temporalSeries = (finalYear - initialYear) + 1; //quantity years
-    var imcFreq        = imc.map(function(e){ return e.select('classification').eq(classID)}).sum().divide(temporalSeries).multiply(100); //Frequency Image
-    var filteredImages = ee.List([]);
-    Map.addLayer(imcFreq,{min:0,max:100,palette:['fff9f9','ff0000','efff00','27ff00','ef00ff']},'Freq - ' + classID);
-    for(var i = initialYear; i <= finalYear; i++){
+var filterPixelFrequency = function(firstYear, lastYear, imc, cutPercentage, classID){
+  var temporalSeries = (lastYear - firstYear) + 1; //quantity years
+  var imcFreq        = imc.map(function(e){ return e.select('classification').eq(classID)}).sum().divide(temporalSeries).multiply(100); //Frequency Image
+  var filteredImages = ee.List([]);
+  Map.addLayer(imcFreq,{min:0,max:100,palette:['fff9f9','ff0000','efff00','27ff00','ef00ff']},'Freq - ' + classID, false);
+  for(var i = firstYear; i <= lastYear; i++){
     var image       = imc.filterMetadata('year','equals',i).first();
-    image           = image.updateMask(image.select('classification').eq(classID)).where(imcFreq.lte(cutPercentage),0);//.and(image.select('consecutiveness').eq(0)),0); // MAGIC! happening here
+    image           = image.updateMask(image.select('classification').eq(classID)).where(imcFreq.lte(cutPercentage),0);
     filteredImages  = filteredImages.add(image);
-}
-var imcFreqPos = ee.ImageCollection(filteredImages).map(function(e){ return e.select('classification').eq(classID)}).sum().divide(temporalSeries).multiply(100); //Frequency Image
-var imgMapAddLayer = imcFreqPos.updateMask(imcFreqPos.neq(0));
+  }
+  var imcFreqPos = ee.ImageCollection(filteredImages).map(function(e){ return e.select('classification').eq(classID)}).sum().divide(temporalSeries).multiply(100); //Frequency Image
+  var imgMapAddLayer = imcFreqPos.updateMask(imcFreqPos.neq(0));
 
-Map.addLayer(imcFreqPos.updateMask(imcFreqPos.neq(0)),{min:0,max:100,palette:['fff9f9','ff0000','efff00','27ff00','ef00ff']},'Pós Filtro Freq - ' + classID);
+  Map.addLayer(imcFreqPos.updateMask(imcFreqPos.neq(0)),{min:0,max:100,palette:['fff9f9','ff0000','efff00','27ff00','ef00ff']},'Pós Filtro Freq - ' + classID, false);
 
-return [filteredImages, imgMapAddLayer];
+  return [filteredImages, imgMapAddLayer];
 };
 
 /// Main CODE
-
-
 var ROI = ee.Geometry.Polygon(
-[
-    [
-        [-75.46319738935682, 6.627809464162168],
-        [-75.46319738935682, -34.62753178950752],
-        [-32.92413488935683, -34.62753178950752],
-        [-32.92413488935683, 6.627809464162168]
-    ]
-], null, false
+  [
+      [
+          [-75.46319738935682, 6.627809464162168],
+          [-75.46319738935682, -34.62753178950752],
+          [-32.92413488935683, -34.62753178950752],
+          [-32.92413488935683, 6.627809464162168]
+      ]
+  ], null, false
 );
+var userEEProject ='USER_PROJECT_ID';
+var versionSF     = 6;
+var firstYear = 1985;
+var lastYear  = 2024;
+
+
 var classID   = 31;
 var versionFF = 1;
 var frequency = 10;
-var imc     = getImageCollection();
+var imc     = getImageCollection(firstYear, lastYear, userEEProject, versionSF);
 var copyIMC = imc;
 var year    = 2024;
 
@@ -91,8 +88,8 @@ var mosaic_image_full = ee.Image('projects/'+userEEProject+'/assets/USER_PATH/mo
 Map.addLayer(mosaic_image_full, {'bands': ['swir1', 'nir', 'red'],'min': 5,'max': 109,'opacity':1},'mosaico landsat '+year,true);
 
 
-imc         = imc.map(getConsecutively).aside(print);
-var targetClassList = filterPixelFrequency(imc,frequency,classID);
+imc                 = imc.map(getConsecutively).aside(print);
+var targetClassList = filterPixelFrequency(firstYear, lastYear, imc,frequency,classID);
 var targetClass     = ee.ImageCollection(targetClassList[0]);
 var imgMapAddLayer  = targetClassList[1];
 
