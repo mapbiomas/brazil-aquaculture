@@ -46,7 +46,7 @@ Implementation details may vary between collections and are documented within ea
 ## Methodological Reference
 A detailed description of the theoretical background and methodological decisions is available in the:
 
-[Mining Algorithm Theoretical Basis Document - Collection 10](https://doi.org/10.58053/MapBiomas/C0A21M)
+[Coastal Zone Algorithm Theoretical Basis Document.](https://doi.org/10.58053/MapBiomas/D0UVI6)
 
 
 ## Notes
