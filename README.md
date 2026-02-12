@@ -17,7 +17,7 @@ To ensure consistency across collections, the repository is organized by MapBiom
 ## Repository Structure
 The repository is subdivided into folders corresponding to **MapBiomas collections**, for example:
 
-- `MapBiomas9/`
+- `MapBiomas09/`
 - `MapBiomas10/`
 
 Each collection folder contains:
