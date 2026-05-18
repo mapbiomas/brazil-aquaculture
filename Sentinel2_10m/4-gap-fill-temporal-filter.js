@@ -24,7 +24,7 @@ var loadData = function() {
         var image =  imgCol.filterMetadata("year","equals",year).first().eq(1).remap([0,1],[0,classID]).rename('classification').toByte().reproject(proj, null, scale);
         var imgeMerge = ee.ImageCollection([image]).max();
         maps[i] = imgeMerge;
-        var mosaic = ee.Image('projects/'+userEEProject+'/assets/'+userPATH+'/mosaic_'+year);
+        var mosaic = ee.Image('projects/'+userEEProject+'/assets/'+userPATH).filter(ee.Filter.and(ee.Filter.eq('mosaic',1),ee.Filter.eq('year',year))).mosaic();
         mosaic = mosaic.select(0).unmask(0);
         var nodata = ee.Image(NO).mask(mosaic.select(0).eq(0)).rename('classification').toByte();
         maps[i] =  maps[i].updateMask(maps[i].lte(33)).unmask(0);
@@ -159,8 +159,7 @@ var tfLastYearFirstTwoMatch = function(im1, im2, im3) {
     return maps;
   }
 
-//------------------------------------ Run Filter --------------------------------------
-/// Main CODE
+//------------------------------------ Main CODE --------------------------------------
 import {geometry_br} from './regions.js';
 
 var maps = loadData();

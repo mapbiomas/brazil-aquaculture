@@ -15,8 +15,8 @@ evalPolys           = evalPolys.filter(ee.Filter.bounds(notRSBox).not());
 var polyImage       = ee.Image(0).byte().paint(trainingPolys, 1).paint(evalPolys, 2);
 polyImage           = polyImage.updateMask(polyImage);
 
-var datasetMosaic   = ee.Image('projects/'+userEEProject+'/assets/'+userPATH+'/mosaic_'+ datasetYear);
+var datasetMosaic   = ee.Image('projects/'+userEEProject+'/assets/'+userPATH).filter(ee.Filter.and(ee.Filter.eq('mosaic',1),ee.Filter.eq('year',datasetYear))).mosaic();
 
-Map.addLayer(datasetMosaic,{min:4, max:188, bands:['swir1','nir','red']},'Mosaico SENTINEL '+mosaicYear);
-Map.addLayer(supervisedImg.selfMask(),{'palette':'#601f9e'},'supervised S2 '+mosaicYear, false);
+Map.addLayer(datasetMosaic,{min:4, max:188, bands:['swir1','nir','red']},'Mosaico SENTINEL '+datasetYear);
+Map.addLayer(supervisedImg.selfMask(),{'palette':'#601f9e'},'supervised S2 '+datasetYear, false);
 Map.addLayer(polyImage,{'min': 1, 'max': 4, 'palette': ['red', 'blue','#ffcccb',' #87C1FF']},'Shapes', false);
