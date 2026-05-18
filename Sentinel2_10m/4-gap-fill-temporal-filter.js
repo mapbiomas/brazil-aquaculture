@@ -1,71 +1,76 @@
   //------------------------------------- Flags -----------------------------------------
-  var AQ = 31;
-  var NO = 50; 
-  var mask = -1; 
-  
-  var firstYear  = 1985;
-  var lastYear   = 2024;
+var AQ = 31;
+var NO = 50; 
+var mask = -1; 
 
-  var userEEProject='USER_PROJECT_ID'
+var firstYear = 2016;
+var lastYear  = 2024;
+
+var userEEProject = 'USER_PROJECT_ID';
+var userPATH      = 'USER_PATH';
   
+var mode   = 'max';
+var imgCol = ee.ImageCollection('projects/'+userEEProject+'/assets/'+userPATH+'/raw_data')
+                .filter(ee.Filter.eq('mode',mode));
+var proj   = imgCol.filterMetadata("year","equals",2022).first().projection();
+var scale  = 10;
+
   
   //------------------------------- Load data function ----------------------------------
-  var loadData = function() {
+var loadData = function() {
     var maps = [];
     var i = 0; 
     for(var year = firstYear; year <= lastYear; year++){ 
-      var image = ee.Image('projects/'+userEEProject+'/assets/LANDSAT/AQUACULTURE/out_deepLearning/'+year+'_v4_CONTINENTAL_e64').gte(threshold).set('year',year).remap([0,1],[0,AQ]).rename('classification').toByte()
-      var imgeMerge = ee.ImageCollection([image]).max();
-      maps[i] = imgeMerge;
-      var mosaic = ee.Image('projects/'+userEEProject+'/assets/USER_PATH/mosaic_'+year);
-      mosaic = mosaic.select(0).unmask(0);
-      var nodata = ee.Image(NO).mask(mosaic.select(0).eq(0)).rename('classification').toByte();
-      maps[i] =  maps[i].updateMask(maps[i].lte(33)).unmask(0);
-      maps[i] = ee.ImageCollection([maps[i],nodata]).mosaic().set({"year":year});
-      i = i + 1;
+        var image =  imgCol.filterMetadata("year","equals",year).first().eq(1).remap([0,1],[0,classID]).rename('classification').toByte().reproject(proj, null, scale);
+        var imgeMerge = ee.ImageCollection([image]).max();
+        maps[i] = imgeMerge;
+        var mosaic = ee.Image('projects/'+userEEProject+'/assets/'+userPATH+'/mosaic_'+year);
+        mosaic = mosaic.select(0).unmask(0);
+        var nodata = ee.Image(NO).mask(mosaic.select(0).eq(0)).rename('classification').toByte();
+        maps[i] =  maps[i].updateMask(maps[i].lte(33)).unmask(0);
+        maps[i] = ee.ImageCollection([maps[i],nodata]).mosaic().set({"year":year});
+        i = i + 1;
     }
     return maps;
-  }
-  //--------------------------------- Rules for NO -----------------------------------------
-  
-  // rule 1
-  var tfNOFirstYear = function(im1, im2, im3) {
+}
+//--------------------------------- Rules for NO -----------------------------------------
+
+// rule 1
+var tfNOFirstYear = function(im1, im2, im3) {
     im1 = im1.where(im1.eq(NO).and(im2.neq(NO)).and(im2.neq(mask)),im2);
     return im1.where(im1.eq(NO).and(im2.eq(NO)).and(im3.neq(NO)).and(im3.neq(mask)),im3);
-  };
-  
-  // rule 2
-  var tfNOCenterYear = function(im1, im2, im3) {
+};
+
+// rule 2
+var tfNOCenterYear = function(im1, im2, im3) {
     im2 = im2.where(im2.eq(NO).and(im1.neq(NO)).and(im1.neq(mask)),im1);
     return im2.where(im2.eq(NO).and(im1.eq(NO)).and(im3.neq(NO)).and(im3.neq(mask)),im3);
-  };
-  
-  // rule 3
-  var tfNOLastYear = function(im1, im2, im3) {
+};
+
+// rule 3
+var tfNOLastYear = function(im1, im2, im3) {
     im3 = im3.where(im3.eq(NO).and(im2.neq(NO)).and(im2.neq(mask)),im2);
     return im3.where(im3.eq(NO).and(im2.eq(NO)).and(im1.neq(NO)).and(im1.neq(mask)),im1);
-  };
-  
-  //------------------------ General rules - Neighbors match ---------------------------
-  
-  // rule 4
-  var tfFirstYearLastTwoMatch = function(im1, im2, im3) {
+};
+
+//------------------------ General rules - Neighbors match ---------------------------
+
+// rule 4
+var tfFirstYearLastTwoMatch = function(im1, im2, im3) {
     return im1.where(im2.eq(im3).and(im2.neq(mask)),im2);
-  };
-   
-  // rule 5
-  var tfCenterYearFirstAndLastMatch = function(im1, im2, im3) {
+};
+
+// rule 5
+var tfCenterYearFirstAndLastMatch = function(im1, im2, im3) {
     return im2.where(im1.eq(im3).and(im1.neq(mask)),im1);
-  };
-  
-  // rule 6
-  var tfLastYearFirstTwoMatch = function(im1, im2, im3) {
+};
+
+// rule 6
+var tfLastYearFirstTwoMatch = function(im1, im2, im3) {
     return im3.where(im1.eq(im2).and(im1.neq(mask)),im1);
-  };
+};
   
-  //----------------------- Specific rules - Depend on classes ---------------------------
-  
-  
+//----------------------- Specific rules - Depend on classes ---------------------------
   var fillGaps = function(imageList,classValue){
     var limit  = lastYear - firstYear
     print('Limit',limit)
@@ -87,8 +92,8 @@
     }
     return imageList;
   }
-  
-  //------------------------------------- Filters -----------------------------------------
+
+//------------------------------------- Filters -----------------------------------------
   
   var filterCenterYears = function(maps) {
     // Safe backup copy
@@ -153,25 +158,16 @@
     }
     return maps;
   }
-  //------------------------------------ Run Filter --------------------------------------
-  /// Main CODE
-  // Boundary box de todo o Brasil
-  var ROI = ee.Geometry.Polygon(
-    [
-        [
-            [-75.46319738935682, 6.627809464162168],
-            [-75.46319738935682, -34.62753178950752],
-            [-32.92413488935683, -34.62753178950752],
-            [-32.92413488935683, 6.627809464162168]
-        ]
-    ], null, false
-  );
 
-  var maps = loadData();
-  var originals = maps;
-  maps = fillGaps(maps,AQ);
-  maps = filterCenterYears(maps);
-  maps = filterFirtsYears(maps);
+//------------------------------------ Run Filter --------------------------------------
+/// Main CODE
+import {geometry_br} from './regions.js';
+
+var maps = loadData();
+var originals = maps;
+maps = fillGaps(maps,AQ);
+maps = filterCenterYears(maps);
+maps = filterFirtsYears(maps);
    
   
   // rule 3
@@ -216,18 +212,19 @@
   
 
 
-  var classID = AQ;
-  var version = 1;
-  for(var year = firstYear; year <= lastYear; year++) {
+var classID = AQ;
+var version = 1;
+
+for(var year = firstYear; year <= lastYear; year++) {
     Export.image.toAsset({
-      image: (ee.ImageCollection([(ee.Image(ee.List(maps).filter(ee.Filter.eq("year",year)).get(0)))
-      .rename('classification').toByte()])
-      .mosaic())
-      .set({'unet_version':4,'class':classID,'year':year,'filter':1,'region':'BR','collection':10, 'version':version, 'threshold':threshold}).toByte(),
-      description:'ft_1_BR_v'+version+'_'+year,
-      assetId: 'projects/'+userEEProject+'/assets/LANDSAT/AQUACULTURE/unet_ft/ft_1_BR_v'+version+'_'+year,
-      scale: 30,
-      maxPixels:1e13,
-      region: ROI
+        image: (ee.ImageCollection([(ee.Image(ee.List(maps).filter(ee.Filter.eq("year",year)).get(0)))
+        .rename('classification').toByte()])
+        .mosaic())
+        .set({'unet_version':'v1_CONTINENTAL_512','class':classID,'year':year,'filter':1,'region':'BR','collection':10, 'satellite':'sentinel2', 'version':version,'mode':mode}).toByte(),
+        description:'ft_1_BR_v'+version+'_'+mode+'_'+year,
+        assetId: 'projects/'+userEEProject+'/assets/SENTINEL2/AQUACULTURE/unet_ft/ft_1_BR_v'+version+'_'+mode+'_'+year,
+        scale: scale,
+        maxPixels:1e13,
+        region: geometry_br
     });
-  }
+}
