@@ -4,14 +4,27 @@
 
 # Aquaculture Mapping
 
-#### Developed by: _[Solved - Soluções em Geoinformação](https://solved.eco.br)_
-
 # About
 This repository provides the steps to detect aquaculture areas using Landsat Top of Atmosphere (TOA) mosaics.
 
 The detection process focuses on identifying aquaculture areas using Landsat TOA mosaics. The process involves generating annual cloud-free mosaics using Google Earth Engine (GEE) and applying a [U-Net](https://arxiv.org/abs/1505.04597) deep learning model for segmentation.
 
 For more information about the methodology, please consult the [Coastal Zone Algorithm Theoretical Basis Document.](https://doi.org/10.58053/MapBiomas/D0UVI6)
+
+## Repository Structure
+The repository is subdivided into folders corresponding to **MapBiomas Collections**, for example:
+
+- `MapBiomas09/`
+- `MapBiomas10/`
+
+Each collection folder contains:
+- The specific processing workflow adopted in that collection
+- Scripts and notebooks for data preparation, training, classification, and post-processing
+- Class-specific subdirectories when applicable
+
+This structure allows methodologies to evolve across collections while preserving reproducibility and historical context.
+
+---
 
 # How to use
 ## 0. Prepare environment.

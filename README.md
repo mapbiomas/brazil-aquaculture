@@ -9,26 +9,11 @@
 ## Overview
 This repository contains the workflows and methodologies used to detect **Aquacultures and Saltcultures in Brazil** within the MapBiomas Brazil project.
 
-The mapping is based on Landsat Top-of-Atmosphere (TOA) imagery and combines machine learning and deep learning approaches to generate annual maps for multiple coastal environments.
+The mapping is based on Landsat Top-of-Atmosphere (TOA) (`Landsat 30m`) and Sentinel-2 (`Sentinel2_10m`) imagery and combines machine learning and deep learning approaches to generate annual maps for multiple coastal environments.
 
-To ensure consistency across collections, the repository is organized by MapBiomas Collection versions, with each collection implemented in its own directory.
-
----
-## Repository Structure
-The repository is subdivided into folders corresponding to **MapBiomas collections**, for example:
-
-- `MapBiomas09/`
-- `MapBiomas10/`
-
-Each collection folder contains:
-- The specific processing workflow adopted in that collection
-- Scripts and notebooks for data preparation, training, classification, and post-processing
-- Class-specific subdirectories when applicable
-
-This structure allows methodologies to evolve across collections while preserving reproducibility and historical context.
+To ensure consistency across collections, the repository is organized by MapBiomas Collection versions, with each collection type implemented in its own directory.
 
 ---
-
 ## General Workflow
 Across collections, the aquaculture mapping follows a common high-level workflow:
 
@@ -51,5 +36,5 @@ A detailed description of the theoretical background and methodological decision
 
 ## Notes
 This README provides a **general overview** of the repository.  
-For collection-specific details, please refer to the README files inside each `MapBiomasX/` directory.
+For collection-specific details, please refer to the README files inside each directory.
 
