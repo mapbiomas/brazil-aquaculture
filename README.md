@@ -4,8 +4,6 @@
 
 # Aquaculture Mapping
 
-#### Developed by: _[Solved - Soluções em Geoinformação](https://solved.eco.br)_
-
 ## Overview
 This repository contains the workflows and methodologies used to detect **Aquacultures and Saltcultures in Brazil** within the MapBiomas Brazil project.
 
