@@ -219,7 +219,7 @@ for(var year = firstYear; year <= lastYear; year++) {
         image: (ee.ImageCollection([(ee.Image(ee.List(maps).filter(ee.Filter.eq("year",year)).get(0)))
         .rename('classification').toByte()])
         .mosaic())
-        .set({'unet_version':'v1_CONTINENTAL_512','class':classID,'year':year,'filter':1,'region':'BR','collection':10, 'satellite':'sentinel2', 'version':version,'mode':mode}).toByte(),
+        .set({'unet_version':'v1_CONTINENTAL_512','class':classID,'year':year,'filter':1,'region':'BR','collection':3, 'satellite':'sentinel2', 'version':version,'mode':mode}).toByte(),
         description:'ft_1_BR_v'+version+'_'+mode+'_'+year,
         assetId: 'projects/'+userEEProject+'/assets/SENTINEL2/AQUACULTURE/unet_ft/ft_1_BR_v'+version+'_'+mode+'_'+year,
         scale: scale,
